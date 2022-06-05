@@ -9,11 +9,10 @@ public class Filme {
   public Genero generoFilme {get; set;}
   public List<Atua> atua {get; set;}
 
-  public Filme(String titulo, TimeSpan duracao, Genero genero, List<Atua> atores){
+  public Filme(String titulo, TimeSpan duracao){
     this.titulo = titulo;
     this.duracao = duracao;
-    this.generoFilme = genero;
-    this.atua = atores;
+    this.atua = new List<Atua>();
   }
 
   public Filme()
