@@ -3,11 +3,16 @@ using System.Collections.Generic;
 
 class Program {
   public static void Main (string[] args) {
+
     
-  long cpf = 13126470009;
-  Cliente cliente1 = new Cliente(cpf,"Italo",22);
-    
+ 
+  }
+
+  /*
+   long cpf = 13126470009;
   Funcionario funcionario = new Funcionario(1234, "Teste");
+    
+  Cliente cliente1 = funcionario.cadastrarCliente(cpf,"Italo",22);
     
   Ingresso ingresso1 = new Ingresso(1, funcionario, cliente1);
   List<Ingresso> listaIngressos = new List<Ingresso>();
@@ -26,8 +31,10 @@ class Program {
   filme1.addAtor(papel1);
   filme1.addAtor(papel2);
   
-  Sessao sessao = new Sessao(new DateTime(2022, 6, 1), false,new TimeSpan(18, 00, 00), "Português", 45.00, 27.50, new Sala(10, 300),listaIngressos ,funcionario, filme1);
+  Sessao sessao = new Sessao(new DateTime(2022, 6, 1), false,new TimeSpan(18, 00, 00), "Português", 45.00, 27.50, new Sala(10, 300),funcionario, filme1);
+
+    funcionario.venderIngresso(1, cliente1, sessao);
     
-    funcionario.consultarSessao(sessao, filme1);
-  }
+    funcionario.consultarSessao(sessao, filme1);  
+*/
 }

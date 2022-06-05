@@ -14,7 +14,7 @@ public class Sessao {
   public Funcionario funcionarios {get; set;}
   public Filme filmes {get; set;}
   
-    public Sessao(DateTime dtSessao, bool encerrada, TimeSpan horSessao, string indicadorDublado, double valorInteira, double valorMeia, Sala salas, List<Ingresso> ingressos, Funcionario funcionarios, Filme filmes)
+    public Sessao(DateTime dtSessao, bool encerrada, TimeSpan horSessao, string indicadorDublado, double valorInteira, double valorMeia, Sala salas, Funcionario funcionarios, Filme filmes)
     {
         this.dtSessao = dtSessao;
         this.encerrada = encerrada;
@@ -23,7 +23,7 @@ public class Sessao {
         this.valorInteira = valorInteira;
         this.valorMeia = valorMeia;
         this.salas = salas;
-        this.ingressos = ingressos;
+        this.ingressos = new List<Ingresso>();
         this.funcionarios = funcionarios;
         this.filmes = filmes;
     }

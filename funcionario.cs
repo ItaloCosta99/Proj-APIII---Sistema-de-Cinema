@@ -18,7 +18,7 @@ public class Funcionario {
 
     public void venderIngresso(int tipo, Cliente cliente, Sessao sessao){
     sessao.ingressos.Add(new Ingresso(tipo, this, cliente));
-    Console.WriteLine("Ingresso vendido para " + cliente.nome);
+    Console.WriteLine("Ingresso vendido para " + cliente.nome + "\n");
   }
   
   public void consultarSessao(Sessao sessao, Filme filme) {
@@ -26,7 +26,7 @@ public class Funcionario {
     filme.conFilme();
   }
   
-  public Cliente cadastrarCliente(int cpf, String nome, int idade){
+  public Cliente cadastrarCliente(long cpf, String nome, int idade){
     Cliente cliente = new Cliente(cpf, nome, idade);
     return cliente;
   }
