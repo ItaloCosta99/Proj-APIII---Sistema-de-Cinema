@@ -22,11 +22,10 @@ public class Filme {
   }
 
   public void conFilme() {
-    Console.WriteLine("Titulo: " + this.titulo + "\n"+
-                      "Duração: " +  this.duracao + "\n" + "Descrição: " + this.generoFilme.descricao + "\n" + "Atores: ");
+    Console.WriteLine($"\nTitulo: {this.titulo}.\nDuração: {this.duracao.Hours}h{this.duracao.Minutes}m{this.duracao.Seconds}s.\nDescrição: {this.generoFilme.descricao}.\nAtores: ");
     foreach (Atua ator in this.atua)
     {
-      Console.WriteLine($"{ator.papel} ({ator.ator.nome})");
+      Console.WriteLine($"{ator.papel} ({ator.ator.nome}).");
     }
   }
 

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 
 public class Sessao {
   public DateTime dtSessao {get;set;}
@@ -32,14 +33,14 @@ public class Sessao {
     }
 
     public void selSessao() {
-    Console.WriteLine("Data: " + this.dtSessao);
-    Console.WriteLine("Status: " + (this.encerrada ? "Encerrada" : "Aberta"));
-    Console.WriteLine("Hora da Sessão: " + this.horSessao);
-    Console.WriteLine("Dublado: " + this.indicadorDublado);
-    Console.WriteLine("Inteira: " + this.valorInteira);
-    Console.WriteLine("Meia: " + this.valorMeia);
-    Console.WriteLine("Sala Nº: " + this.salas.numSala);
-    Console.WriteLine("Capacidade: " + this.salas.capacidade);
+    Console.WriteLine($"Data: {this.dtSessao.ToString("dd/MM/yyyy")}.");
+    Console.WriteLine($"Status: {(this.encerrada ? "Encerrada" : "Aberta")}.");
+    Console.WriteLine($"Hora da Sessão: {this.horSessao.Hours}h{this.horSessao.Minutes}m.");
+    Console.WriteLine($"Dublado: {this.indicadorDublado}.");
+    Console.WriteLine($"Inteira: {this.valorInteira.ToString("C", CultureInfo.CreateSpecificCulture("pt-BR"))}.");
+    Console.WriteLine($"Meia: {this.valorMeia.ToString("C", CultureInfo.CreateSpecificCulture("pt-BR"))}.");
+    Console.WriteLine($"Sala Nº: {this.salas.numSala}.");
+    Console.WriteLine($"Capacidade: {this.salas.capacidade} lugares.");
   }
 
 }
