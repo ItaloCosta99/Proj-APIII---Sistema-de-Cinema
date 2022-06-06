@@ -9,6 +9,7 @@ class Program {
   static List<Funcionario> funcionarios = new List<Funcionario>();
 
   public static Funcionario CadastrarFuncionario(){
+    Console.WriteLine("\n------ CADASTRO DE FUNCIONARIO ------");
     Console.WriteLine("Digite o nome do funcionário: ");
     String nome = Console.ReadLine();
     Console.WriteLine("Digite a matricula do funcionário: ");
@@ -17,6 +18,7 @@ class Program {
   }
 
   public static Funcionario selFuncionario(){
+    Console.WriteLine("\n------ SELECIONAR FUNCIONARIO ------");
     Console.WriteLine("Selecione um funcionário: ");
     for(int i = 0; i < funcionarios.Count; i++){
       Console.WriteLine((i+1) + " - " + funcionarios[i] + " : " + funcionarios[i].matricula);
@@ -31,13 +33,18 @@ class Program {
   }
 
   public static Cliente selCliente(){
-    Console.WriteLine("Selecione um funcionário: ");
+    Console.WriteLine("\n------ SELECIONAR CLIENTE ------");
+    if(clientes.Count == 0){
+      Console.WriteLine("Nenhum usuário cadastrado");
+      return CadastrarCliente();
+    }
+    Console.WriteLine("Selecione um cliente: ");
     for(int i = 0; i < clientes.Count; i++){
-      Console.WriteLine((i+1) + " - " + clientes[i] + " : " + clientes[i].cpf);
+      Console.WriteLine((i+1) + " - " + clientes[i].nome + " : " + clientes[i].cpf);
     }
     Console.Write("Selecione uma opção: ");
     int opt = int.Parse(Console.ReadLine());
-    if(opt <= 0 || opt > funcionarios.Count){
+    if(opt <= 0 || opt > clientes.Count){
       Console.WriteLine("Opção invalida.");
       return selCliente();
     }
@@ -45,19 +52,17 @@ class Program {
   }
 
   public static void detalheSessao(Sessao sessao){
+    Console.WriteLine("\n------ MENU SESSÃO - "+ sessao.filmes.titulo + " ------");
     Console.WriteLine("1 - Exibir detalhes da sessão");
-    Console.WriteLine("2 - Atribuir funcionário");
-    Console.WriteLine("3 - Vender ingresso");
+    Console.WriteLine("2 - Vender ingresso");
     Console.WriteLine("Digite uma opção: ");
     int opt = int.Parse(Console.ReadLine());
     switch(opt){
       case 1:
+        Console.WriteLine("\n------ DETALHES SESSÃO ------");
         sessao.selSessao();
         break;
       case 2:
-        sessao.funcionarios = selFuncionario();
-        break;
-      case 3:
         sessao.funcionarios.venderIngresso(1, selCliente(), sessao);
         break;
       default:
@@ -67,11 +72,13 @@ class Program {
     }
   }
   
-  public static void SelecionarSessao(int selected){
+  public static void 
+    SelecionarSessao(int selected){
+    Console.WriteLine("\n------ SELECIONAR SESSÃO - "+ filmes[selected].titulo +" ------");
     Console.WriteLine("1 - Cadastrar Sessao");
     List<Sessao> filtrado = sessoes.FindAll(e => e.filmes.titulo == filmes[selected].titulo);
     for(int i = 0; i < filtrado.Count; i++){
-      Console.WriteLine((i + 2) + " - " + filtrado[i].filmes.titulo + " | " + filtrado[i].horSessao.Hours + ":" + filtrado[i].horSessao.Minutes);
+      Console.WriteLine((i + 2) + " - " + filtrado[i].filmes.titulo + " | " + filtrado[i].horSessao.Hours + ":" + filtrado[i].horSessao.Minutes + " | " + filtrado[i].dtSessao.ToString("dd/MM/yyyy"));
     }
     Console.Write("Selecione uma opção: ");
     int opt = int.Parse(Console.ReadLine());
@@ -79,11 +86,12 @@ class Program {
       detalheSessao(filtrado[opt-2]);
     }
     else{
-      CadastrarSessao();
+      sessoes.Add(CadastrarSessao());
     }
   }
   
   public static void SelecionarFilme(){
+    Console.WriteLine("\n------ SELECIONAR FILMES ------");
     if(filmes.Count == 0){
       Console.WriteLine("Nenhum filme cadastrado!");
       return;
@@ -101,21 +109,26 @@ class Program {
     }
   }
 
-  public static Filme selFilme(){
-    Console.WriteLine("Selecione um funcionário: ");
-    for(int i = 0; i < funcionarios.Count; i++){
+  public static Filme getFilme(){
+    Console.WriteLine("Selecione um filme: ");
+    if (filmes.Count == 0)
+    {
+      CadastrarFilme();
+    }
+    for(int i = 0; i < filmes.Count; i++){
       Console.WriteLine((i+1) + " - " + filmes[i].titulo);
     }
     Console.Write("Selecione uma opção: ");
     int opt = int.Parse(Console.ReadLine());
-    if(opt <= 0 || opt > funcionarios.Count){
+    if(opt <= 0 || opt > filmes.Count){
       Console.WriteLine("Opção invalida.");
-      return selFilme();
+      return getFilme();
     }
     return filmes[opt-1];
   }
 
   public static Filme CadastrarFilme(){
+    Console.WriteLine("\n------ CADASTRAR FILME ------");
     Console.WriteLine("Genero do filme: ");
     Genero genero = new Genero(Console.ReadLine());
     Console.WriteLine("Titulo do filme: ");
@@ -140,6 +153,7 @@ class Program {
   }
 
   public static Cliente CadastrarCliente(){
+    Console.WriteLine("\n------ CADASTRAR CLIENTE ------");
     Console.WriteLine("Nome do Cliente: ");
     string nome = Console.ReadLine();
     Console.WriteLine("CPF: ");
@@ -152,7 +166,7 @@ class Program {
   }
   
   public static Sessao CadastrarSessao (){
-    /* Sessao sessao = new Sessao(new DateTime(2022, 6, 1), false,new TimeSpan(18, 00, 00), "Português", 45.00, 27.50, new Sala(10, 300),funcionario, filme1);*/
+    Console.WriteLine("\n------ CADASTRAR SESSÃO ------");
     Console.WriteLine("Insira a data do filme (dd/mm/yyyy): ");
     string lineDate = Console.ReadLine();
     DateTime dt;
@@ -164,16 +178,25 @@ class Program {
     Console.WriteLine("Insira a hora do filme (00:00:00): ");
     string lineTime = Console.ReadLine();
     TimeSpan ts;
-    while (!TimeSpan.TryParseExact(lineTime, "00:00:00", null, out ts))
+    while (!TimeSpan.TryParseExact(lineTime, "g", null, out ts))
     {
       Console.WriteLine("Horário inválido, tente novamente!");
-      lineTime = Console.ReadLine();
+      lineDate = Console.ReadLine();
     }
+    /* Console.WriteLine("Insira a hora do filme (00:00:00): ");
+    TimeSpan ts = TimeSpan.Parse(Console.ReadLine()); */
     Console.WriteLine("Lingua da dublagem: ");
     string dublagem = Console.ReadLine();
     Console.WriteLine("Valor do ingresso: ");
     double inteira = double.Parse(Console.ReadLine());
-    Sessao sessao = new Sessao(dt, ts, dublagem, inteira);
+    Console.WriteLine("Numero da Sala: ");
+    int numSala = int.Parse(Console.ReadLine());
+    Console.WriteLine("Capacidade da Sala: ");
+    int capSala = int.Parse(Console.ReadLine());
+    Sala salas = new Sala(numSala, capSala);
+    Filme filme = getFilme(); 
+    Funcionario funcs = funcionarios.Count == 0 ? CadastrarFuncionario() : selFuncionario();
+    Sessao sessao = new Sessao(dt, ts, dublagem, inteira, salas, funcs, filme);
     return sessao;
   }
   
@@ -182,6 +205,7 @@ class Program {
     bool rodando = true;
     
     while(rodando){
+      Console.WriteLine("\n------ MENU PRINCIPAL ------");
       int opt = 0;
       Console.WriteLine("1 - Selecionar filme");
       Console.WriteLine("2 - Cadastrar filme");
@@ -202,7 +226,11 @@ class Program {
           rodando = false;
           break;
         case 1:
-          SelecionarFilme();
+          try{
+            SelecionarFilme();
+          }catch{
+            Console.WriteLine("Erro na consulta.");
+          }
           break;
         case 2:
           try{

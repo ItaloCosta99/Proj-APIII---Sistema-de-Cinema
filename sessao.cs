@@ -41,6 +41,7 @@ public class Sessao {
     Console.WriteLine($"Meia: {this.valorMeia.ToString("C", CultureInfo.CreateSpecificCulture("pt-BR"))}.");
     Console.WriteLine($"Sala Nº: {this.salas.numSala}.");
     Console.WriteLine($"Capacidade: {this.salas.capacidade} lugares.");
+    Console.WriteLine("Ingressos vendidos: " + ingressos.Count);
   }
 
 }
