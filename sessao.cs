@@ -14,14 +14,14 @@ public class Sessao {
   public Funcionario funcionarios {get; set;}
   public Filme filmes {get; set;}
   
-    public Sessao(DateTime dtSessao, bool encerrada, TimeSpan horSessao, string indicadorDublado, double valorInteira, double valorMeia, Sala salas, Funcionario funcionarios, Filme filmes)
+    public Sessao(DateTime dtSessao, TimeSpan horSessao, string indicadorDublado, double valorInteira, Sala salas, Funcionario funcionarios, Filme filmes)
     {
         this.dtSessao = dtSessao;
-        this.encerrada = encerrada;
+        this.encerrada = false;
         this.horSessao = horSessao;
         this.indicadorDublado = indicadorDublado;
         this.valorInteira = valorInteira;
-        this.valorMeia = valorMeia;
+        this.valorMeia = valorInteira/2;
         this.salas = salas;
         this.ingressos = new List<Ingresso>();
         this.funcionarios = funcionarios;

@@ -5,9 +5,66 @@ class Program {
 
   static List<Sessao> sessoes = new List<Sessao>();
   static List<Filme> filmes = new List<Filme>();
+  static List<Cliente> clientes = new List<Cliente>();
+  static List<Funcionario> funcionarios = new List<Funcionario>();
 
-  public static void CadastrarSessao(int opt){
-    
+  public static Funcionario CadastrarFuncionario(){
+    Console.WriteLine("Digite o nome do funcionário: ");
+    String nome = Console.ReadLine();
+    Console.WriteLine("Digite a matricula do funcionário: ");
+    int matricula = int.Parse(Console.ReadLine());
+    return new Funcionario(matricula, nome);
+  }
+
+  public static Funcionario selFuncionario(){
+    Console.WriteLine("Selecione um funcionário: ");
+    for(int i = 0; i < funcionarios.Count; i++){
+      Console.WriteLine((i+1) + " - " + funcionarios[i] + " : " + funcionarios[i].matricula);
+    }
+    Console.Write("Selecione uma opção: ");
+    int opt = int.Parse(Console.ReadLine());
+    if(opt <= 0 || opt > funcionarios.Count){
+      Console.WriteLine("Opção invalida.");
+      return selFuncionario();
+    }
+    return funcionarios[opt-1];
+  }
+
+  public static Cliente selCliente(){
+    Console.WriteLine("Selecione um funcionário: ");
+    for(int i = 0; i < clientes.Count; i++){
+      Console.WriteLine((i+1) + " - " + clientes[i] + " : " + clientes[i].cpf);
+    }
+    Console.Write("Selecione uma opção: ");
+    int opt = int.Parse(Console.ReadLine());
+    if(opt <= 0 || opt > funcionarios.Count){
+      Console.WriteLine("Opção invalida.");
+      return selCliente();
+    }
+    return clientes[opt-1];
+  }
+
+  public static void detalheSessao(Sessao sessao){
+    Console.WriteLine("1 - Exibir detalhes da sessão");
+    Console.WriteLine("2 - Atribuir funcionário");
+    Console.WriteLine("3 - Vender ingresso");
+    Console.WriteLine("Digite uma opção: ");
+    int opt = int.Parse(Console.ReadLine());
+    switch(opt){
+      case 1:
+        sessao.selSessao();
+        break;
+      case 2:
+        sessao.funcionarios = selFuncionario();
+        break;
+      case 3:
+        sessao.funcionarios.venderIngresso(1, selCliente(), sessao);
+        break;
+      default:
+        Console.WriteLine("Opção invalida!");
+        detalheSessao(sessao);
+        break;
+    }
   }
   
   public static void SelecionarSessao(int selected){
@@ -18,6 +75,12 @@ class Program {
     }
     Console.Write("Selecione uma opção: ");
     int opt = int.Parse(Console.ReadLine());
+    if(opt > 1){
+      detalheSessao(filtrado[opt-2]);
+    }
+    else{
+      CadastrarSessao();
+    }
   }
   
   public static void SelecionarFilme(){
@@ -34,8 +97,22 @@ class Program {
       SelecionarSessao(opt-1);
     }
     else{
-      Console.WriteLine("Erro ao ler opção de filme da opcao" + opt);
+      Console.WriteLine("Erro ao ler opção de filme da opcao." + opt);
     }
+  }
+
+  public static Filme selFilme(){
+    Console.WriteLine("Selecione um funcionário: ");
+    for(int i = 0; i < funcionarios.Count; i++){
+      Console.WriteLine((i+1) + " - " + filmes[i].titulo);
+    }
+    Console.Write("Selecione uma opção: ");
+    int opt = int.Parse(Console.ReadLine());
+    if(opt <= 0 || opt > funcionarios.Count){
+      Console.WriteLine("Opção invalida.");
+      return selFilme();
+    }
+    return filmes[opt-1];
   }
 
   public static Filme CadastrarFilme(){
@@ -74,6 +151,32 @@ class Program {
     return cliente;
   }
   
+  public static Sessao CadastrarSessao (){
+    /* Sessao sessao = new Sessao(new DateTime(2022, 6, 1), false,new TimeSpan(18, 00, 00), "Português", 45.00, 27.50, new Sala(10, 300),funcionario, filme1);*/
+    Console.WriteLine("Insira a data do filme (dd/mm/yyyy): ");
+    string lineDate = Console.ReadLine();
+    DateTime dt;
+    while (!DateTime.TryParseExact(lineDate, "dd/MM/yyyy", null, System.Globalization.DateTimeStyles.None, out dt))
+    {
+      Console.WriteLine("Data inválida, tente novamente!");
+      lineDate = Console.ReadLine();
+    }
+    Console.WriteLine("Insira a hora do filme (00:00:00): ");
+    string lineTime = Console.ReadLine();
+    TimeSpan ts;
+    while (!TimeSpan.TryParseExact(lineTime, "00:00:00", null, out ts))
+    {
+      Console.WriteLine("Horário inválido, tente novamente!");
+      lineTime = Console.ReadLine();
+    }
+    Console.WriteLine("Lingua da dublagem: ");
+    string dublagem = Console.ReadLine();
+    Console.WriteLine("Valor do ingresso: ");
+    double inteira = double.Parse(Console.ReadLine());
+    Sessao sessao = new Sessao(dt, ts, dublagem, inteira);
+    return sessao;
+  }
+  
   public static void Main (string[] args) {
 
     bool rodando = true;
@@ -83,6 +186,8 @@ class Program {
       Console.WriteLine("1 - Selecionar filme");
       Console.WriteLine("2 - Cadastrar filme");
       Console.WriteLine("3 - Cadastrar cliente");
+      Console.WriteLine("4 - Cadastrar sessão");
+      Console.WriteLine("5 - Cadastrar funcionario");
       Console.WriteLine("0 - Sair");
       Console.Write("Digite: ");
 
@@ -90,6 +195,7 @@ class Program {
         opt = int.Parse(Console.ReadLine());
       } catch {
         Console.WriteLine("Opção invalida.");
+        Main(new String[0]);
       }
       switch(opt){
         case 0:
@@ -107,9 +213,23 @@ class Program {
           break;
         case 3:
           try{
-            CadastrarCliente();
+            clientes.Add(CadastrarCliente());
           } catch(Exception e){
             Console.WriteLine("Erro ao cadastrar cliente");
+          }
+          break;
+        case 4:
+          try{
+            sessoes.Add(CadastrarSessao());
+          } catch(Exception e){
+            Console.WriteLine("Erro ao cadastrar sessão");
+          }
+          break;
+        case 5:
+          try{
+            funcionarios.Add(CadastrarFuncionario());
+          } catch(Exception e){
+            Console.WriteLine("Erro ao cadastrar funcionario");
           }
           break;
         default:
