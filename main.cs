@@ -93,20 +93,26 @@ class Program {
   
   public static void SelecionarFilme(){
     Console.WriteLine("\n------ SELECIONAR FILMES ------");
+    bool filmeOp = true;
     if(filmes.Count == 0){
       Console.WriteLine("Nenhum filme cadastrado!");
       return;
     }
+    while (filmeOp) {
+    Console.Write("Selecione o filme: \n");
     for(int i = 1; i <= filmes.Count; i++){
       Console.WriteLine(i + " - " + filmes[i-1].titulo);
     }
-    Console.Write("Selecione o filme: ");
+    Console.Write("Precione 0 para sair: \n");
     int opt = int.Parse(Console.ReadLine());
     if(opt > 0 || opt <= filmes.Count){
       SelecionarSessao(opt-1);
-    }
-    else{
+    } else {  
       Console.WriteLine("Erro ao ler opção de filme da opcao." + opt);
+    }
+    if (opt == 0) {
+      filmeOp = false;
+    }
     }
   }
 
@@ -182,7 +188,7 @@ class Program {
     while (!TimeSpan.TryParseExact(lineTime, "g", null, out ts))
     {
       Console.WriteLine("Horário inválido, tente novamente!");
-      lineDate = Console.ReadLine();
+      lineTime = Console.ReadLine();
     }
     /* Console.WriteLine("Insira a hora do filme (00:00:00): ");
     TimeSpan ts = TimeSpan.Parse(Console.ReadLine()); */
@@ -229,36 +235,36 @@ class Program {
         case 1:
           try{
             SelecionarFilme();
-          }catch{
-            Console.WriteLine("Erro na consulta.");
+          }catch (Exception e){
+            Console.WriteLine("Erro na consulta.\n" + e);
           }
           break;
         case 2:
           try{
             filmes.Add(CadastrarFilme());
           } catch(Exception e){
-            Console.WriteLine("Erro ao cadastrar filme");
+            Console.WriteLine("Erro ao cadastrar filme.\n" + e);
           }
           break;
         case 3:
           try{
             clientes.Add(CadastrarCliente());
           } catch(Exception e){
-            Console.WriteLine("Erro ao cadastrar cliente");
+            Console.WriteLine("Erro ao cadastrar cliente.\n" + e);
           }
           break;
         case 4:
           try{
             sessoes.Add(CadastrarSessao());
           } catch(Exception e){
-            Console.WriteLine("Erro ao cadastrar sessão");
+            Console.WriteLine("Erro ao cadastrar sessão.\n" + e);
           }
           break;
         case 5:
           try{
             funcionarios.Add(CadastrarFuncionario());
           } catch(Exception e){
-            Console.WriteLine("Erro ao cadastrar funcionario");
+            Console.WriteLine("Erro ao cadastrar funcionario.\n" + e);
           }
           break;
         default:
